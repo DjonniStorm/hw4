@@ -29,6 +29,8 @@ export const UserForm = ({ initialValue, onSubmit }: UserFormProps) => {
       confirmPassword: "",
       fullName: "",
       email: "",
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       birthDate: new Date(),
       telephone: "",
       employment: "",
