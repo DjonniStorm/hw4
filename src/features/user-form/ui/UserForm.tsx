@@ -109,18 +109,21 @@ export const UserForm = ({ initialValue, onSubmit }: UserFormProps) => {
               />
             </Group>
           </Fieldset>
-          <Fieldset legend="пароль">
-            <PasswordInput
-              label="Придумайте пароль"
-              key={form.key("password")}
-              {...form.getInputProps("password")}
-            />
-            <PasswordInput
-              label="Подтвердите пароль"
-              key={form.key("confirmPassword")}
-              {...form.getInputProps("confirmPassword")}
-            />
-          </Fieldset>
+          {initialValue && (
+            <Fieldset legend="пароль">
+              <PasswordInput
+                label="Придумайте пароль"
+                key={form.key("password")}
+                {...form.getInputProps("password")}
+              />
+              <PasswordInput
+                label="Подтвердите пароль"
+                key={form.key("confirmPassword")}
+                {...form.getInputProps("confirmPassword")}
+              />
+            </Fieldset>
+          )}
+
           <Fieldset legend="что-то">
             <TextInput
               label="Employment"
