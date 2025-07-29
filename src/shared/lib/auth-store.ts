@@ -48,9 +48,15 @@ class AuthStore {
   };
 
   checkAuth = async () => {
+    // Если уже авторизован, не проверяем
+    if (this.isAuthenticated && this.user) {
+      return;
+    }
+
     runInAction(() => {
       this.isLoading = true;
     });
+
     try {
       const whoami = await api.get<{
         sub: string;
@@ -62,14 +68,15 @@ class AuthStore {
       );
 
       if (!user) {
-        throw new Error();
+        throw new Error("User not found");
       }
 
       runInAction(() => {
         this.user = user;
         this.isAuthenticated = true;
       });
-    } catch {
+    } catch (e) {
+      console.error("Auth check failed:", e);
       runInAction(() => {
         this.user = undefined;
         this.isAuthenticated = false;

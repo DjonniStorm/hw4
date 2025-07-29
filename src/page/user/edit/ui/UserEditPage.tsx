@@ -5,11 +5,13 @@ import { UserForm } from "@/features/user-form";
 import { User, UserCreate, UserUpdateDto } from "@/shared/types";
 import { notifications } from "@mantine/notifications";
 import { observer } from "mobx-react-lite";
+import { useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
 
 export const UserEditPage = observer(
   ({ params }: { params: Promise<{ id: string }> }) => {
     const { id } = use(params);
+    const router = useRouter();
     const [editUser, setEditUser] = useState<User | undefined>();
     const [isInitialized, setIsInitialized] = useState(false);
 
@@ -77,6 +79,7 @@ export const UserEditPage = observer(
         message: "Успешно обновлен",
         color: "green",
       });
+      router.push("/");
     };
 
     if (!isInitialized) {

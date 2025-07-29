@@ -18,7 +18,21 @@ export class Api {
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      let errorMessage = `HTTP error! status: ${response.status}`;
+
+      try {
+        const cloned = response.clone();
+        const errorBody = await cloned.json();
+
+        const msg = errorBody?.message;
+        if (Array.isArray(msg)) {
+          errorMessage = msg.join(", ");
+        } else if (typeof msg === "string") {
+          errorMessage = msg;
+        }
+      } catch {}
+
+      throw new Error(errorMessage);
     }
 
     return response.json();

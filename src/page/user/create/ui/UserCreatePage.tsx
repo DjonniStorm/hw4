@@ -4,8 +4,10 @@ import { UserForm } from "@/features/user-form";
 import type { UserCreate, UserCreateDto } from "@/shared/types";
 import { Container } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
+import { useRouter } from "next/navigation";
 
 export const UserCreatePage = () => {
+  const router = useRouter();
   const { addUser } = useStores();
   const handleSubmit = async (user: UserCreate) => {
     const newUser: UserCreateDto = {
@@ -25,6 +27,10 @@ export const UserCreatePage = () => {
       message: success ? "Успешно добавлен" : error,
       color: success ? "green" : "red",
     });
+
+    if (success) {
+      router.push("/");
+    }
   };
 
   return (

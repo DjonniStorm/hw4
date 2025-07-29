@@ -1,4 +1,5 @@
 "use client";
+import { normalizePhone } from "@/shared/lib";
 import type { User, UserCreate } from "@/shared/types";
 import {
   Button,
@@ -37,6 +38,12 @@ export const UserForm = ({ initialValue, onSubmit }: UserFormProps) => {
       userAgreement: false,
       ...initialValue,
     },
+    transformValues: (values) => ({
+      ...values,
+      telephone: values.telephone
+        ? normalizePhone(values.telephone)
+        : undefined,
+    }),
   });
 
   const handleSubmit = (values: UserCreate) => {
@@ -87,12 +94,14 @@ export const UserForm = ({ initialValue, onSubmit }: UserFormProps) => {
             </Group>
             <Group className="w-full flex-1" justify="space-between">
               <Stack justify="center" pr="sm" w="40%">
-                <TextInput
-                  label="Адрес электронной почты"
-                  placeholder="example@example.ru"
-                  key={form.key("email")}
-                  {...form.getInputProps("email")}
-                />
+                {!initialValue && (
+                  <TextInput
+                    label="Адрес электронной почты"
+                    placeholder="example@example.ru"
+                    key={form.key("email")}
+                    {...form.getInputProps("email")}
+                  />
+                )}
                 <TextInput
                   label="Номер телефона"
                   placeholder="+7-777-777-77-77"
@@ -109,7 +118,7 @@ export const UserForm = ({ initialValue, onSubmit }: UserFormProps) => {
               />
             </Group>
           </Fieldset>
-          {initialValue && (
+          {!initialValue && (
             <Fieldset legend="пароль">
               <PasswordInput
                 label="Придумайте пароль"

@@ -10,16 +10,19 @@ import { zodResolver } from "mantine-form-zod-resolver";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useRedirect } from "@/shared/hooks/use-redirect";
 
 export const LoginForm = observer(() => {
   const router = useRouter();
-  const { login, error, isAuthenticated } = authStore;
+  const { login, error, isAuthenticated, isLoading } = authStore;
+  const { redirectAfterLogin } = useRedirect();
 
   useEffect(() => {
-    if (isAuthenticated) {
-      router.push("/");
+    if (isAuthenticated && !isLoading) {
+      redirectAfterLogin();
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, isLoading, redirectAfterLogin]);
+
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
@@ -28,20 +31,25 @@ export const LoginForm = observer(() => {
     },
     validate: zodResolver(loginSchema),
   });
+
   const handleSubmit = async (values: LoginData) => {
-    await login(values);
-    if (error) {
+    try {
+      await login(values);
+      // Навигация произойдёт автоматически через useEffect
+    } catch (err) {
       notifications.show({
         title: "Ошибка при входе",
-        message: error,
+        message: error || "Неизвестная ошибка",
+        color: "red",
       });
     }
   };
+
   return (
     <>
       <Paper withBorder shadow="xl" radius="xl" p="xl">
         <form className="w-80" onSubmit={form.onSubmit(handleSubmit)}>
-          <Stack gap={10}>
+          <Stack gap="md">
             <TextInput
               label="Введите логин:"
               placeholder="palpatine66@empire.sw"
@@ -62,7 +70,9 @@ export const LoginForm = observer(() => {
               key={form.key("password")}
               {...form.getInputProps("password")}
             />
-            <Button type="submit">Войти</Button>
+            <Button type="submit" loading={isLoading}>
+              Войти
+            </Button>
           </Stack>
         </form>
       </Paper>
