@@ -8,12 +8,10 @@ import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import { zodResolver } from "mantine-form-zod-resolver";
 import { observer } from "mobx-react-lite";
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useRedirect } from "@/shared/hooks/use-redirect";
 
 export const LoginForm = observer(() => {
-  const router = useRouter();
   const { login, error, isAuthenticated, isLoading } = authStore;
   const { redirectAfterLogin } = useRedirect();
 
@@ -35,8 +33,7 @@ export const LoginForm = observer(() => {
   const handleSubmit = async (values: LoginData) => {
     try {
       await login(values);
-      // Навигация произойдёт автоматически через useEffect
-    } catch (err) {
+    } catch {
       notifications.show({
         title: "Ошибка при входе",
         message: error || "Неизвестная ошибка",

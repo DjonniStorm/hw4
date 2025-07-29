@@ -1,9 +1,10 @@
-import { useRouter, useSearchParams } from "next/navigation";
+"use client";
+
+import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 
 export const useRedirect = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   const saveCurrentPath = useCallback(() => {
     if (typeof window !== "undefined") {

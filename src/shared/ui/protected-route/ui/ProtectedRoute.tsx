@@ -13,13 +13,11 @@ export const ProtectedRoute = observer(
 
     useEffect(() => {
       const checkAuth = async () => {
-        // Если уже авторизован, не проверяем
         if (authStore.isAuthenticated) {
           setIsChecking(false);
           return;
         }
 
-        // Сохраняем текущий путь перед редиректом
         saveCurrentPath();
 
         try {
@@ -37,7 +35,7 @@ export const ProtectedRoute = observer(
       };
 
       checkAuth();
-    }, []); // Убираем зависимости, чтобы избежать бесконечных циклов
+    }, []);
 
     if (isChecking) {
       return <div>Загрузка...</div>;
