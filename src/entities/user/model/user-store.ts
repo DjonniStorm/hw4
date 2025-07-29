@@ -63,6 +63,9 @@ class UsersStore {
     this.startLoading();
     try {
       const user = await api.get<User>(AVAILABLE_ENDPOINTS.users.getById(id));
+      runInAction(() => {
+        this.selectedUser = user;
+      });
       return { success: true, user };
     } catch (e) {
       const error = this.handleError(e);
