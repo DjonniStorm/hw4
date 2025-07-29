@@ -2,7 +2,7 @@
 
 import { useStores } from "@/app/hooks/use-store";
 import { UserForm } from "@/features/user-form";
-import { User, UserUpdateDto } from "@/shared/types";
+import { User, UserCreate, UserUpdateDto } from "@/shared/types";
 import { notifications } from "@mantine/notifications";
 import { observer } from "mobx-react-lite";
 import { use, useEffect, useState } from "react";
@@ -47,7 +47,10 @@ export const UserEditPage = observer(
       initializeUser();
     }, [id, selectedUser, getUser, isInitialized]);
 
-    const handleSubmit = async (user: User) => {
+    const handleSubmit = async (user: UserCreate) => {
+      if (!selectedUser) {
+        return;
+      }
       console.log(user);
       const newUser: UserUpdateDto = {
         name: user.name,
@@ -60,7 +63,7 @@ export const UserEditPage = observer(
         employment: user.employment,
         userAgreement: user.userAgreement,
       };
-      const res = await updateUser(user.id, newUser);
+      const res = await updateUser(selectedUser.id, newUser);
       if (!res.success) {
         notifications.show({
           title: "Обновление пользователя",

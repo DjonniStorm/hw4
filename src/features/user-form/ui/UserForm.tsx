@@ -60,7 +60,9 @@ export const UserForm = ({ initialValue, onSubmit }: UserFormProps) => {
     <Paper shadow="xl" radius="lg" p="xl" withBorder>
       <form
         className="w-full h-full flex flex-col"
-        onSubmit={form.onSubmit(handleSubmit)}
+        onSubmit={form.onSubmit((values) =>
+          handleSubmit(values as unknown as UserCreate)
+        )}
       >
         <Stack pb="md">
           <Fieldset
