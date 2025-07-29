@@ -1,5 +1,4 @@
 "use client";
-import { ROUTES } from "@/shared/config";
 import { NavLink, Stack } from "@mantine/core";
 import { IconUserPlus, IconUsersGroup } from "@tabler/icons-react";
 import { usePathname, useRouter } from "next/navigation";
@@ -8,12 +7,12 @@ const SIDEBAR_ROUTES = [
   {
     label: "Пользователи",
     icon: IconUsersGroup,
-    link: ROUTES.main,
+    link: "/",
   },
   {
     label: "Создать пользователя",
     icon: IconUserPlus,
-    link: ROUTES.user.create,
+    link: "/user/create",
   },
 ];
 

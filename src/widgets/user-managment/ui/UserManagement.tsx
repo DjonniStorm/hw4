@@ -1,7 +1,6 @@
 "use client";
 import { useStores } from "@/app/hooks/use-store";
 import { usersStore } from "@/entities/user";
-import { ROUTES } from "@/shared/config";
 import { Button, Container, Group } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
